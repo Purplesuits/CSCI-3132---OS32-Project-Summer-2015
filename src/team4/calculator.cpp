@@ -20,14 +20,14 @@ void Calculator::execute()
     stack.init();
     //strcpy(cal_printout,"the answer");
     char exp[100];
-    cout << "enter expression end with ;：";
+    cout << "enter expression end such as (1+2)*(3-4)   :";
     
     cin >> exp;
     char post[100] ;
     int n =0;
     if(!postfix(exp,post,n))
     {
-        char a[]= "answer:  ";
+        char a[]= "answer: ";
         printA(a);
         cout<<cal_printout;
         cout<<postfix_value(post)<<endl;
@@ -43,7 +43,20 @@ void Calculator::execute()
  operation cannot be the first or the last one
  and the opertion cant not connect with another operation
  */
-
+bool Calculator::CheckSyntax(char pre[])
+{
+    if(checkCharacters(pre)||checkOP(pre)||checkDot(pre)|| checkBracket(pre)||checkSeicolon(pre))
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+    
+    
+    
+}
 bool Calculator::checkCharacters(char pre[])
 {
     int i;
@@ -71,7 +84,8 @@ bool Calculator::checkOP(char pre[])
     */
     if(isoperator(pre[0])||isoperator(pre[(unsigned)strlen(pre)-1]))
     {
-        
+        char a[]="operator cannot be first or the end";
+        printError(a);
         return 1;
     }
     /*check for a set of operator
@@ -84,6 +98,8 @@ bool Calculator::checkOP(char pre[])
             if(isoperator(pre[i+1]))
             {
                 printError(pre,i);
+                char a[]="can not have continuous operators";
+                printError(a);
                 return 1;
             }
         }
@@ -96,7 +112,9 @@ bool Calculator::checkDot(char pre[])
     int i;
     if(pre[0]=='.'||pre[(unsigned)strlen(pre)-1]=='.')
     {
-        
+        printError(pre,0);
+        char a[]="dotr cannot be first or the last one";
+        printError(a);
         return 1;
     }
     for(i=0;i<(unsigned)strlen(pre);i++)
@@ -104,7 +122,12 @@ bool Calculator::checkDot(char pre[])
         if(pre[i]=='.')
         {
             if(pre[i+1]==!'.'||pre[i-1]=='.')
+            {
+                printError(pre,i);
+                char a[]="operator has issues";
+                printError(a);
                 return 1;
+            }
         }
         
     }
@@ -132,23 +155,37 @@ bool Calculator::checkBracket(char pre[])
         if(b[i]==')')
             sum--;
         if(sum<0)
+        {
+            char a[]="you have bracket issues";
+            printError(a);
             return 1;
+            
+        }
     }
     if(sum!=0)
+    {
+        char a[]="you have bracket issues";
+        printError(a);
         return 1;
+    }
+        if(((unsigned)strlen(pre))==(unsigned)strlen(b))
+    {
+        char a[]="you need number in the expression as well";
+        printError(a);
+        return 1;
+    }
     return 0;
 }
 bool Calculator::checkSeicolon(char pre[])
 {
     int i;
+    int length=(strlen(pre)-1);
     if(pre[(unsigned)strlen(pre)-1]!=';')
     {
-        printError(pre,(unsigned)strlen(pre)-1);
-        char a[]="end with semicolon";
-        printA(a);
-        return 1;
+        char a[]=";";
+        strcat(pre,a);
     }
-    for(i=0;i<(strlen(pre)-1);i++)
+    for(i=0;i<length;i++)
     {
         if(pre[i]==';')
         {
@@ -167,20 +204,36 @@ void Calculator::printError(char array[],int l)
     for( i =0 ;i <(unsigned)strlen(array);i++)
     {
         if(i==l)
-            //cout <<" [";
-            //cout << array[i];
             printA(bracketA);
-        printC(array[i]);
+            printC(array[i]);
         if(i==l)
             printA(bracketB);
     }
     
     
 }
+void Calculator::printError(char array[])
+{
+     printA(array);
+}
+/*
+ add a char array into the cal_print
+ 
+ */
 void Calculator::printA(char a[])
 {
     strcat(cal_printout,a);
 }
+
+
+
+/*
+ 
+ 
+ add a single cahr into char array
+ 
+ 
+ */
 void Calculator::printC(char a)
 {
     cal_printout[(unsigned)strlen(cal_printout)]=a;
@@ -220,7 +273,7 @@ int Calculator::postfix(char pre[] ,char post[],int &n)
 { 
    if(CheckSyntax(pre))
 	{
-		char a[]=" has syntax issuse";
+		char a[]="\n    --- Syntax issuse ---   ";
 		printA(a);
 		return 1;
 	}
@@ -349,22 +402,7 @@ double Calculator::postfix_value(char post[])
     return stack.gettop();  
 }  
 
-bool Calculator::CheckSyntax(char pre[])
-{
- if(checkCharacters(pre)||checkOP(pre)||checkDot(pre)|| checkBracket(pre)||checkSeicolon(pre))
-{
-	return 1;
 
-} 	
-else
-{
-
-	return 0;
-}
-
-
- 
-} 
 
 
 
