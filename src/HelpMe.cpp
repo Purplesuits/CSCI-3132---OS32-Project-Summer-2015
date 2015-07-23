@@ -17,10 +17,10 @@ HelpMe::~HelpMe() {
 }
 
 int HelpMe::execute(){
-       FileSystem fsys; //FileSystem object
+        FileSystem fsys; //FileSystem object
 		File* file;   //pointer to hold File object
 		UI ui;    //UI object
-		file= fsys.fread();     //fread will retrn File pointer.
+		file= fsys.fread("command-list.txt");     //fread will retrn File pointer.
 		string contents=file->getContents();   //getting contents using pointer
 	    ui.println(contents);    //passing contents to UI
 		return 0;
