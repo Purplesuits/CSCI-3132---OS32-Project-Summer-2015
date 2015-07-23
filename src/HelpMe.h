@@ -15,6 +15,7 @@ using namespace std;
 #include "UI.h"
 #include "File.h"
 
+using namespace std;
 class HelpMe :public Command{
 public:
 	HelpMe();
