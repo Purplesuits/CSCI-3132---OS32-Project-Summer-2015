@@ -11,8 +11,8 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <stdexcept>
 
-//#include "Converter.h"
 
 namespace Utilities {
 
@@ -32,6 +32,8 @@ namespace Utilities {
 			virtual ~Utilities();
 
 			virtual void execute();
+
+			bool checkIfInt(std::string userInput, int &runUtil);
 
 		private:
 			Utilities* displayMenu();
