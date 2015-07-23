@@ -12,62 +12,16 @@
 #include <fstream>
 #include <string.h>
 #include <stdio.h>  /* defines FILENAME_MAX */
+
 #include <sys/stat.h>
-#if defined(WINDOWS)
-    #include <windows.h>
-   #define GetCurrentDir _getcwd
-#elif defined(__APPLE__)
-    #include <unistd.h>
-    #define GetCurrentDir getcwd
-#else
-    #include <unistd.h>
-    #define GetCurrentDir getcwd
-#endif
+#include <unistd.h>
+#define GetCurrentDir getcwd
 
 //Creates the directories needed by the rest of the system
 void createDirectories(char curOS) {
-    //Use different sections depending on the OS typef
-    //w for windows
-    //m for apple (mac)
-    if(curOS == 'w') {
-        //Variables
-        //char buffer to hold the directory path name
-        char cCurrentPath[FILENAME_MAX];
-        //System path name
-        char cSystemPath[FILENAME_MAX];
-        //Account path name
-        char cAccountPath[FILENAME_MAX];
-        //Did the function work
-        if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath)))
-        {
-            //return 1;
-            return;
-        }
-
-        strcat (cCurrentPath, "/OS32");
-        //Initalize the other paths as needed by appending the folder names to the current directory
-        strcat (cSystemPath, cCurrentPath);     strcat (cSystemPath, "/systems");
-        strcat (cAccountPath, cSystemPath);     strcat (cAccountPath, "/account");
-
-        //TEST: print out the current directory (Of the running executable - might not the where the code is
-        printf ("The current working directory is %s\n", cCurrentPath);
-
-        //Create new directory
-        mkdir (cCurrentPath, ACCESSPERMS);
-        printf ("The directory was made: %s\n", cCurrentPath);
-        mkdir (cSystemPath, ACCESSPERMS);
-        printf ("The directory was made: %s\n", cSystemPath);
-        mkdir (cAccountPath, ACCESSPERMS);
-        printf ("The directory was made: %s\n", cAccountPath);
-    }
-    else if( curOS == 'm' ){
-        mkdir("systems", 0777);
-        mkdir("systems/account", 0777);
-    }
-    else {
-        mkdir("systems", 0777);
-        mkdir("systems/account", 0777);
-    }
+    mkdir("OS32", 0777);
+    mkdir("OS32/systems", 0777);
+    mkdir("OS32/systems/account", 0777);
 }
 
 //Creates the startup files
@@ -194,13 +148,8 @@ int main() {
 
     //Creates necessary files
     //Calls a different function depending on the operating system
-#if defined(WINDOWS)
-        createDirectories('w');
-        createFilesW();
-    #elif defined(__APPLE__)
-        createDirectories('m');
-        createFilesM();
-#endif
+    createDirectories('m');
+    createFilesM();
 
     printf("Ready to run OS32");
     return 0;

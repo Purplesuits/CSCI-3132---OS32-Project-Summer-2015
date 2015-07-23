@@ -1,5 +1,5 @@
 #include "encryption.h"
-
+#include "UI.h"
 #include <string>
 #include <sstream>
 using namespace std;
@@ -9,12 +9,12 @@ void Encryption::execute()
 {	
 	string key;
 	File* inFile = getFile();
-	if(inFile == nullptr || inFile->getFileType())
+	if(inFile == nullptr)
 	{
 		return;
 	}
-	cout << "Enter a password or phrase." << endl;
-	cin >> key;
+	UI::println("Enter a password or phrase.");
+	key = UI::readLine();
 	encrypt(inFile, &key);
 	return;
 }
@@ -23,18 +23,15 @@ File* Encryption::getFile()
 {
 	string filename;
 	FileSystem& fs = FileSystem::getInstance();
-	cout << "Enter a file to Encrypt/Decrypt:" << endl;
-	cin >> filename;
-
-	File* file = new File(filename, "Some text to be put in to the file", { true, true, true }); // fs.fLocate(filename);
-	if(file == nullptr || file->getFileType())
+	UI::println("Enter a file to Encrypt/Decrypt:");
+	filename = UI::readLine();
+	File* file = fs.fLocate(filename);
+	if(file == nullptr)
 	{
-		cout << "No such file exists." << endl;
+		UI::println("No such file exists.");
 	}
-	
 	return file;
 }
-
 
 int Encryption::encrypt(File* file, string* key)
 {
@@ -47,14 +44,4 @@ int Encryption::encrypt(File* file, string* key)
 	file->setContents(outstream.str());
 
 	return 0;
-}
-
-int main()
-{
-	FileSystem& fs = FileSystem::getInstance();
-	Encryption x;
-	// fs.fcreate("file", "some text inside here", { true, true, true });
-	x.execute();
-	// system("pause");
-	return EXIT_SUCCESS;
 }

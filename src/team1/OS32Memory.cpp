@@ -1,10 +1,12 @@
 #include "OS32Memory.h"
 
+#include <cstdlib>
 #include <iostream>
 #include <assert.h>
 #include <string.h>
+#include <stdio.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 #if DEBUG
 #define DEBUG_PRINT(...) printf(__VA_ARGS__);

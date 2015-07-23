@@ -1,9 +1,11 @@
 #include <vector>
 
 #include "Command.h"
-#include "../ui/UI.h"
-#include "../files/File.h"
-#include "../files/FileSystem.h"
+#include "UI.h"
+#include "File.h"
+#include "FileSystem.h"
+
+#include <cstdlib>
 
 int CurrDir::execute() {
 	FileSystem &fileSystem = FileSystem::getInstance();

@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 
-#include "../utilities/Utilities.h"
+#include "Utilities.h"
 
 /*
  *	This class represents the process scheduler of the OS32 system

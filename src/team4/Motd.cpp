@@ -4,7 +4,7 @@
 
 #include "Motd.h"
 #include "UI.h"
-#include "vector.h"
+#include <vector>
 #include <string>
 #include <stdlib.h>
 #include <sstream>
@@ -17,7 +17,7 @@ void Motd::execute() {
     generateMOTD();
 }
 
-void generateMOTD(){
+void Motd::generateMOTD(){
     //Get the file containing the messages
     FileSystem& fs = FileSystem::getInstance();
     File* motd;
@@ -33,9 +33,9 @@ void generateMOTD(){
     int mIndex = rand() % 20, i=0;
     //Generate Random message
     string line;
-    while (i!=mindex && getline(stream, line)){
+    while (i != mIndex && getline(stream, line)){
         i++;
     }
-    fs.fcreate("motd.tmp",line,std::vector<bool>(true,true,true));
+    fs.fcreate("motd.tmp", line, {true, true, true});
     UI::println(line);
 }

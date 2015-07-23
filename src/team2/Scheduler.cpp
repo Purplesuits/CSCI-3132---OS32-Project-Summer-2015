@@ -7,7 +7,7 @@
 
 #include "Scheduler.h"
 #include "Command.h"
-#include "../files/OS32Memory.h"
+#include "OS32Memory.h"
 
 void Scheduler::runUtility(Utilities::Utilities * util) {
 	util->execute();

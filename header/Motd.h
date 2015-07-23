@@ -4,21 +4,24 @@
 
 #ifndef OS32_MOTD_H
 #define OS32_MOTD_H
+
 #include "string"
 #include "Motd.h"
 #include "FileSystem.h"
+#include "Utilities.h"
 
 using namespace std;
 
-namespace Utilities{
+namespace Utilities {
 
-    class Motd : public Utilities{
+    class Motd : public Utilities::Utilities {
 
     public:
         Motd();
         ~Motd();
         void execute();
         void generateMOTD();
+
     };
 
 }

@@ -1,12 +1,10 @@
 #include <iostream>
-#include <string>
 #include <vector>
 #include <sstream>
 
 #include "Scheduler.h"
-#include "Command.h"
-#include "../files/FileSystem.h"
-#include "../files/OS32Memory.h"
+#include "FileSystem.h"
+#include "OS32Memory.h"
 
 FileSystem &fileSystem = FileSystem::getInstance();
 Scheduler &scheduler = Scheduler::getInstance();
@@ -23,7 +21,6 @@ bool testCurrDir();
 /*
  *	This file tests the scheduler and associated ustilities.
  */
- /*
 int main() {
 	// initializes some heap memory for testing
 	OS32Memory &memory = OS32Memory::getInstance();
@@ -46,7 +43,6 @@ int main() {
 		return 1;
 	}
 }
-*/
 
 /*
  *	This method tests the helpme command
