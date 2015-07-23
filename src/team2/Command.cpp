@@ -48,7 +48,7 @@ int FCreate::execute() {
 	FileSystem &fileSystem = FileSystem::getInstance();
 
 	std::vector<bool> permissions = std::vector<bool>(3, true);
-	bool worked = fileSystem.fcreate(filename, "stuff", permissions);
+	bool worked = fileSystem.fcreate(filename, "", permissions);
 
 	//fcreate failed
 	if (!worked) {
