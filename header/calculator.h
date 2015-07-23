@@ -8,7 +8,7 @@
 using namespace std;
 namespace Utilities {
 
-        class Calculator
+        class Calculator : public Utilities
         {
         public:
                 //static char cal_printout[200];
