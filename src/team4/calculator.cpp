@@ -6,15 +6,153 @@ using namespace std;
 using namespace Utilities;
 
 
+/*this is example main class
+create a Calculator object first 
+then call the execute function
 /*int main()
-{ 
+{
     Calculator *cal=new Calculator();
     cal->execute();
     return 0;
-
 }*/
 
-  
+void Calculator::execute()
+{
+    MyStack<int> stack ;
+    stack.init();
+    strcpy(cal_printout,"the answer");
+    char exp[100];
+    cout << "enter expression end with ;：";
+    cin >> exp;
+    char post[100] ;
+    int n =0;
+    postfix(exp,post,n);
+    cout << "answer:  ";
+    cout << postfix_value(post) << endl;
+}
+
+
+
+
+/*
+ operation cannot be the first or the last one
+ and the opertion cant not connect with another operation
+ */
+bool Calculator::checkOP(char pre[])
+{
+    int i;
+    if(isoperator(pre[0])||isoperator(pre[(unsigned)strlen(pre)-1]))
+    {
+        
+        return 1;
+    }
+    for(i=0;i<(unsigned)strlen(pre);i++)
+    {
+        if(isoperator(pre[i]))
+        {
+            if(isoperator(pre[i+1]))
+                return 1;
+        }
+        
+    }
+    return 0;
+}
+bool Calculator::checkDot(char pre[])
+{
+    int i;
+    if(pre[0]=='.'||pre[(unsigned)strlen(pre)-1]=='.')
+    {
+        
+        return 1;
+    }
+    for(i=0;i<(unsigned)strlen(pre);i++)
+    {
+        if(pre[i]=='.')
+        {
+            if(pre[i+1]==!'.'||pre[i-1]=='.')
+                return 1;
+        }
+        
+    }
+    return 0;
+}
+
+bool Calculator::checkBracket(char pre[])
+{
+    char b[100];
+    
+    int i,n=0,sum=0;
+    for(i=0;i<(unsigned)strlen(pre);i++)
+    {
+        if(pre[i]=='('||pre[i]==')')
+        {
+            b[n]=pre[i];
+            n++;
+        }
+    }
+    
+    for(i=0;i<(unsigned)strlen(b);i++)
+    {
+        if(b[i]=='(')
+            sum++;
+        if(b[i]==')')
+            sum--;
+        if(sum<0)
+            return 1;
+    }
+    if(sum!=0)
+        return 1;
+    return 0;
+}
+bool Calculator::checkSeicolon(char pre[])
+{
+    int i;
+    if(pre[(unsigned)strlen(pre)-1]!=';')
+    {
+        printError(pre,(unsigned)strlen(pre)-1);
+        char a[]="end with semicolon";
+        printA(a);
+        return 1;
+    }
+    for(i=0;i<(strlen(pre)-1);i++)
+    {
+        if(pre[i]==';')
+        {
+            printError(pre,i);
+            return 1;
+        }
+    }
+    return 0;
+    
+}
+void Calculator::printError(char array[],int l)
+{
+    int i;
+    char bracketA[]=" {";
+    char bracketB[]="} ";
+    for( i =0 ;i <(unsigned)strlen(array);i++)
+    {
+        if(i==l)
+            //cout <<" [";
+            //cout << array[i];
+            printA(bracketA);
+        printC(array[i]);
+        if(i==l)
+            printA(bracketB);
+    }
+    
+    
+}
+void Calculator::printA(char a[])
+{
+    strcat(cal_printout,a);
+}
+void Calculator::printC(char a)
+{
+    cal_printout[(unsigned)strlen(cal_printout)]=a;
+    cal_printout[(unsigned)strlen(cal_printout)]='\0';
+}
+
 bool Calculator::isoperator(char op)  
 {  
     return ((op=='+')||(op=='-')||(op=='*')||(op=='/'));
@@ -23,7 +161,7 @@ bool Calculator::isoperator(char op)
   
 int Calculator::priority(char op)  
 {  
-    switch(op)  
+    /*switch(op)
     {  
     case ';':  
         return -1;  
@@ -37,8 +175,25 @@ int Calculator::priority(char op)
         return 2;  
     default :  
         return -1;  
-    }  
-}  
+    } */
+    if(op==';')
+    {
+        return -1;
+    }
+    else if(op=='(')
+    {
+        return 0;
+    }
+    else if(op=='+'||op=='-')
+    {
+        return 1;
+    }
+    else if(op=='/'||'*')
+    {
+        return 2;
+    }
+    return 1;
+}
   
   
 int Calculator::postfix(char pre[] ,char post[],int &n)  
@@ -208,135 +363,3 @@ bool Calculator::checkCharacters(char pre[])
 }
 
 
-/*
-operation cannot be the first or the last one
-and the opertion cant not connect with another operation
-*/
-bool Calculator::checkOP(char pre[])
-{
-	int i;
-	if(isoperator(pre[0])||isoperator(pre[(unsigned)strlen(pre)-1]))
-	{	
-		
-		return 1;
-	}
-        for(i=0;i<(unsigned)strlen(pre);i++)
-        {
-                if(isoperator(pre[i]))
-                {
-                        if(isoperator(pre[i+1]))
-                        return 1;
-                }
-
-        }
-        return 0;	
-}
-bool Calculator::checkDot(char pre[])
-{
-	int i;
-	if(pre[0]=='.'||pre[(unsigned)strlen(pre)-1]=='.')
-        {
-
-                return 1;
-        }
-        for(i=0;i<(unsigned)strlen(pre);i++)
-        {
-                if(pre[i]=='.')
-                {
-                        if(pre[i+1]==!'.'||pre[i-1]=='.')
-                        return 1;
-                }
-
-        }
-        return 0;
-}
-
-bool Calculator::checkBracket(char pre[])
-{
-	char b[100];
-	
-	int i,n=0,sum=0;
-	for(i=0;i<(unsigned)strlen(pre);i++)
-	{
-		if(pre[i]=='('||pre[i]==')')
-			{
-				b[n]=pre[i];
-				n++;
-			}
-	}
-	
-	for(i=0;i<(unsigned)strlen(b);i++)
-	{
-		if(b[i]=='(')
-			sum++;
-		if(b[i]==')')
-			sum--;
-		if(sum<0)
-			return 1;
-	}
-	if(sum!=0)
-	return 1;
-	return 0;
-}
-bool Calculator::checkSeicolon(char pre[])
-{
-	int i;
-	if(pre[(unsigned)strlen(pre)-1]!=';')
-		{
-			printError(pre,(unsigned)strlen(pre)-1);
-			char a[]="end with semicolon";
-			printA(a);
-			return 1;
-		}
-	for(i=0;i<(strlen(pre)-1);i++)
-		{
-			if(pre[i]==';')
-			{
-			printError(pre,i);
-			return 1;	
-			}
-		}
-		return 0;
-
-}
-void Calculator::printError(char array[],int l)
-{
-	int i;
-	char bracketA[]=" {";
-	char bracketB[]="} ";
-	for( i =0 ;i <(unsigned)strlen(array);i++)
-       {
-	 if(i==l)
-	 	//cout <<" [";
-	 	//cout << array[i];
-		printA(bracketA);
-		printC(array[i]);
-	if(i==l)	
-		printA(bracketB);
-        }
-	
-  
-}
- void Calculator::printA(char a[])
-{
-	strcat(cal_printout,a);
-}
-void Calculator::printC(char a)
-{
-	cal_printout[(unsigned)strlen(cal_printout)]=a;
-	cal_printout[(unsigned)strlen(cal_printout)]='\0';
-}
-void Calculator::execute()
-{
-    MyStack<int> stack ;
-    stack.init();
-    strcpy(cal_printout,"the answer");
-    char exp[100];
-    cout << "enter expression end with ;：";
-    cin >> exp;
-    char post[100] ;
-    int n =0;
-    postfix(exp,post,n);
-    cout << "answer:  ";
-    cout << postfix_value(post) << endl;
-}
