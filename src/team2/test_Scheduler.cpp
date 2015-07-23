@@ -23,6 +23,7 @@ bool testCurrDir();
 /*
  *	This file tests the scheduler and associated ustilities.
  */
+ /*
 int main() {
 	// initializes some heap memory for testing
 	OS32Memory &memory = OS32Memory::getInstance();
@@ -45,6 +46,8 @@ int main() {
 		return 1;
 	}
 }
+*/
+
 /*
  *	This method tests the helpme command
  */
