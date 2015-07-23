@@ -5,13 +5,13 @@
 #include "Utilities.h"
 #include <string>
 #include <iostream>
-
 using namespace std;
 namespace Utilities {
 
-        class Calculator : public Utilities
+        class Calculator
         {
         public:
+                //static char cal_printout[200];
                 Calculator(){}
                 ~Calculator() {}
                 void execute();
@@ -24,6 +24,7 @@ namespace Utilities {
                 double postfix_value(char post[]);
                 bool checkCharacters(char pre[]);
                 void printError(char array[],int l);
+                void printError(char array[]);
                 bool checkOP(char pre[]);
                 bool checkDot(char pre[]);
                 bool checkBracket(char pre[]);
