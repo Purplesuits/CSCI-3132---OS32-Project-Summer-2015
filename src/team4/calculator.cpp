@@ -7,12 +7,12 @@ using namespace Utilities;
 
 
 /*this is example main class*/
-int main()
+/*int main()
 {
     Calculator *cal=new Calculator();
     cal->execute();
     return 0;
-}
+}*/
 
 void Calculator::execute()
 {
