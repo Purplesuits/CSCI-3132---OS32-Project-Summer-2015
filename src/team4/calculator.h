@@ -11,7 +11,6 @@ namespace Utilities {
         class Calculator
         {
         public:
-                //static char cal_printout[200];
                 Calculator(){}
                 ~Calculator() {}
                 void execute();
