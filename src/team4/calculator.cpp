@@ -6,29 +6,34 @@ using namespace std;
 using namespace Utilities;
 
 
-/*this is example main class
-create a Calculator object first 
-then call the execute function
-/*int main()
+/*this is example main class*/
+int main()
 {
     Calculator *cal=new Calculator();
     cal->execute();
     return 0;
-}*/
+}
 
 void Calculator::execute()
 {
     MyStack<int> stack ;
     stack.init();
-    strcpy(cal_printout,"the answer");
+    //strcpy(cal_printout,"the answer");
     char exp[100];
     cout << "enter expression end with ;：";
+    
     cin >> exp;
     char post[100] ;
     int n =0;
-    postfix(exp,post,n);
-    cout << "answer:  ";
-    cout << postfix_value(post) << endl;
+    if(!postfix(exp,post,n))
+    {
+        char a[]= "answer:  ";
+        printA(a);
+        cout<<cal_printout;
+        cout<<postfix_value(post)<<endl;
+    }
+    else
+        cout<<cal_printout<<endl;
 }
 
 
@@ -38,20 +43,49 @@ void Calculator::execute()
  operation cannot be the first or the last one
  and the opertion cant not connect with another operation
  */
+
+bool Calculator::checkCharacters(char pre[])
+{
+    int i;
+    for(i=0;i<(unsigned)strlen(pre);i++)
+    {
+        if(!((pre[i]>='0' && pre[i] <='9')||pre[i]=='('||pre[i]==')'||pre[i] =='.'||pre[i]==';'||isoperator(pre[i])))
+        {
+            printError(pre,i);
+            return 1;
+        }
+        
+    }
+    
+    return 0;
+}
+
+/*
+ this function is for check the operators
+ */
 bool Calculator::checkOP(char pre[])
 {
     int i;
+    /*
+     operator cannot show in the first one or the last one;
+    */
     if(isoperator(pre[0])||isoperator(pre[(unsigned)strlen(pre)-1]))
     {
         
         return 1;
     }
+    /*check for a set of operator
+     such as "+++"
+    */
     for(i=0;i<(unsigned)strlen(pre);i++)
     {
         if(isoperator(pre[i]))
         {
             if(isoperator(pre[i+1]))
+            {
+                printError(pre,i);
                 return 1;
+            }
         }
         
     }
@@ -161,21 +195,7 @@ bool Calculator::isoperator(char op)
   
 int Calculator::priority(char op)  
 {  
-    /*switch(op)
-    {  
-    case ';':  
-        return -1;  
-    case '(':  
-        return 0;  
-    case '+':  
-    case '-':  
-        return 1;  
-    case '*':  
-    case '/':  
-        return 2;  
-    default :  
-        return -1;  
-    } */
+    
     if(op==';')
     {
         return -1;
@@ -198,7 +218,7 @@ int Calculator::priority(char op)
   
 int Calculator::postfix(char pre[] ,char post[],int &n)  
 { 
-   if( CheckSyntax(pre))
+   if(CheckSyntax(pre))
 	{
 		char a[]=" has syntax issuse";
 		printA(a);
@@ -346,20 +366,5 @@ else
  
 } 
 
-bool Calculator::checkCharacters(char pre[])
-{
-	int i;
-	for(i=0;i<(unsigned)strlen(pre);i++)
-	{
-		if(!((pre[i]>='0' && pre[i] <='9')||pre[i]=='('||pre[i]==')'||pre[i] =='.'||pre[i]==';'||isoperator(pre[i])))
-		{
-			printError(pre,i);
-			return 1;
-		}
-
-	}
-
-	return 0;
-}
 
 
