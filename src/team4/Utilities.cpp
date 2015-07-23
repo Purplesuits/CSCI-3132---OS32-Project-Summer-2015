@@ -21,6 +21,9 @@
 #include "Utilities.h"
 #include "Converter.h"
 #include "encryption.h"
+#include "calculator.h"
+#include "Palindrome.h"
+#include "Motd.h"
 #include "UI.h"
 
 using namespace std;
@@ -76,24 +79,19 @@ namespace Utilities {
 
 			switch(runUtil){
 				case CONVERTER_UTILITY:
-
 					util = new Converter();
-
 					break;
 				case ENCRYPTION_UTILITY:
-					util = new /*(OS32Memory::getInstance().alloc(sizeof(Encryption)))*/ Encryption();
+					util = new Encryption();
 					break;
 				case MOTD_UTILITY:
-
-					cout << "motd" << endl;
+					util = new Motd();
 					break;
 				case PALINDROME_UTILITY:
-
-
+					util = new Palindrome();
 					break;
 				case CALCULATOR_UTILITY:
-
-
+					util = new Calculator();
 					break;
 				case DATE_TIME_UTILITY:
 

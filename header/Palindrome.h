@@ -12,11 +12,11 @@ using namespace std;
 
 namespace Utilities{
 
-    class Palindrome : public Utilities{
+    class Palindrome : public Utilities {
 
     public:
-        Palindrome();
-        ~Palindrome();
+        Palindrome() {};
+        ~Palindrome() {};
         void execute();
         void palindrome();
     };
