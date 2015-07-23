@@ -21,6 +21,8 @@
 #include "Utilities.h"
 #include "Converter.h"
 #include "encryption.h"
+#include "OS32Memory.h"
+#include "UI.h"
 
 using namespace std;
 
@@ -80,7 +82,7 @@ namespace Utilities {
 
 					break;
 				case ENCRYPTION_UTILITY:
-
+					util = new /*(OS32Memory::getInstance().alloc(sizeof(Encryption)))*/ Encryption();
 					break;
 				case MOTD_UTILITY:
 
@@ -107,7 +109,7 @@ namespace Utilities {
 					runUtil = -1;
 					break;
 			}
-
+			UI::readLine();
 			return util;
 		}
 
@@ -120,14 +122,12 @@ namespace Utilities {
 	 */
 	 void Utilities::execute(){
 		 Utilities* util;
-
-		 while(util != NULL){
-			 util = displayMenu();
-
-			 if(util != NULL){
-				 util->execute();
-			 }
-		 }
+		 do {
+			util = displayMenu();
+			if(util != NULL){
+				util->execute();
+			}
+		 } while (util != NULL);
 
 		 //This will be replaced with reference to the Kernel and the pointer "util" passed for scheduling and execution
 		 /*if(util != NULL){
