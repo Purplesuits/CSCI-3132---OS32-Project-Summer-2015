@@ -277,7 +277,7 @@ int Calculator::postfix(char pre[] ,char post[],int &n)
 		printA(a);
 		return 1;
 	}
-   int i=0,j=0,q=0;
+    int i=0,j=0;
    n=0;
     MyStack<char> stack;
      
@@ -361,7 +361,7 @@ double Calculator::postfix_value(char post[])
     MyStack<double> stack;     
     stack.init();  
   
-    int i=0,j ;  
+    int i=0;  
     double x1,x2;  
   
    while(post[i] !=';')
