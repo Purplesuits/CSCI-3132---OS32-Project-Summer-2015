@@ -11,7 +11,7 @@ set(TEAM3_SOURCE src/team3/Login.cpp src/team3/Menu.cpp src/team3/UI.cpp)
 set(TEAM4_SOURCE src/team4/Converter.cpp src/team4/encryption.cpp src/team4/Motd.cpp src/team4/Palindrome.cpp src/team4/Utilities.cpp)
 
 add_executable(OS32Setup src/team1/OS32setup.cpp ${TEAM1_SOURCE} ${TEAM2_SOURCE} ${TEAM3_SOURCE} ${TEAM4_SOURCE})
-add_executable(OS32 main.cpp ${TEAM1_SOURCE} ${TEAM2_SOURCE} ${TEAM3_SOURCE} ${TEAM4_SOURCE})
+add_executable(OS32Main main.cpp ${TEAM1_SOURCE} ${TEAM2_SOURCE} ${TEAM3_SOURCE} ${TEAM4_SOURCE})
 
 add_executable(test_memory src/team1/test_memory.cpp ${TEAM1_SOURCE})
 add_executable(test_filesystem src/team1/test_FS.cpp ${TEAM1_SOURCE})

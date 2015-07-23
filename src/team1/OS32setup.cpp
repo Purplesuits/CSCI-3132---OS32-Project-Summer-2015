@@ -151,6 +151,6 @@ int main() {
     createDirectories('m');
     createFilesM();
 
-    printf("Ready to run OS32");
+    printf("Ready to run OS32\n");
     return 0;
 }
