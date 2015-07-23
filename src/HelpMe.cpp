@@ -2,7 +2,7 @@
  * HelpMe.cpp
  *
  *  Created on: Jul 22, 2015
- *      Author: Prime
+ *      Author: Hassan Raza
  */
 
 #include "HelpMe.h"

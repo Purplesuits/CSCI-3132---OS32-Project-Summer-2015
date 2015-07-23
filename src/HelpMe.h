@@ -2,7 +2,7 @@
  * HelpMe.h
  *
  *  Created on: Jul 22, 2015
- *      Author: Prime
+ *      Author: Hassan Raza
  */
 
 #ifndef HELPME_H_
