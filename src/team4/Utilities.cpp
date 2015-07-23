@@ -31,12 +31,11 @@ using namespace std;
 namespace Utilities {
 
 	Utilities::Utilities() {
-		//TODO Add reference to constructor for UI and Kernel for process scheduling and execution.
+
 
 	}
 
 	Utilities::~Utilities() {
-		// TODO Auto-generated destructor stub
 	}
 
 
@@ -56,26 +55,21 @@ namespace Utilities {
 
 		Utilities* util = NULL;
 
-		cout << "\n\n::Utilities Menu::" << endl;
-		cout << "1. Converter Utility" << endl;
-		cout << "2. Encryption Utility" << endl;
-		cout << "3. Message of the day Utility" << endl;
-		cout << "4. Palindrome Utility" << endl;
-		cout << "5. Calculator Utility" << endl;
-		cout << "6. Display system date/time" << endl;
-		cout << "0. Quit" << endl;
-		cout << "\nEnter Utility to run (1-6, 0 to Quit): ";
+		UI::println( "\n\n::Utilities Menu::");
+		UI::println("1. Converter Utility");
+		UI::println("2. Encryption Utility");
+		UI::println("3. Message of the day Utility");
+		UI::println("4. Palindrome Utility");
+		UI::println("5. Calculator Utility");
+		UI::println("6. Display system date/time");
+		UI::println("0. Quit");
+		UI::println("\nEnter Utility to run (1-6, 0 to Quit): ");
 
-		cin >> runUtil;
+		string userInput = "";
 
-		if(!cin){
-			cout << "Error - Please enter a valid menu selection" << endl;
-			runUtil = -1;
-
-			cin.clear();
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		}
-		else{
+		UI::readLine();
+                userInput =  UI::readLine();
+		if(checkIfInt(userInput, runUtil)){
 
 			switch(runUtil){
 				case CONVERTER_UTILITY:
@@ -102,14 +96,18 @@ namespace Utilities {
 					cout << "Exiting Utilites!" << endl;
 					break;
 				default:
-					cout << "Error - Please enter a valid menu selection" << endl;
+					UI::println("Error - Please enter a valid menu selection");
 					runUtil = -1;
 					break;
 			}
-			UI::readLine();
-			return util;
-		}
+			//UI::readLine();
 
+		}
+		else{
+			UI::println("Error - Please enter a  valid menu seclection");
+		}
+		
+		return util;
 	}
 
 	/**
@@ -118,23 +116,29 @@ namespace Utilities {
 	 *
 	 */
 	 void Utilities::execute(){
-		 Utilities* util;
-		 do {
+		 Utilities* util = NULL;
+		 do{
 			util = displayMenu();
 			if(util != NULL){
 				util->execute();
+
+				
 			}
 		 } while (util != NULL);
 
-		 //This will be replaced with reference to the Kernel and the pointer "util" passed for scheduling and execution
-		 /*if(util != NULL){
-			 util->execute();
-		 }*/
+ 	}
 
 
-		 //TODO need access to the memory management system in order to pass the pointer to the created utility object
+	bool Utilities::checkIfInt(string userInput, int &runUtil){
+		try {
+			runUtil = stoi(userInput, nullptr, 10);
+
+			return true;
+		}
+  		catch (const std::invalid_argument& ia) {
+			std::cerr << "Invalid argument: " << ia.what() << '\n';
+			return false;
+		}
 	}
-
-
 
 } /* namespace Utilities */
