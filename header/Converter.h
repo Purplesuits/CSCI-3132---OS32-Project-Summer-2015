@@ -38,6 +38,18 @@ namespace Utilities {
 		private:
 
 			void displayMenu();
+			
+			double getFtoC(double userInput);
+		
+			double getCtoF(double userInput);
+			
+			double getMetersToFeet(double userInput);
+			
+			double getFeetToMeters(double userInput);
+			
+			double getLbsToKgs(double userInput);
+			
+			double getKgsToLbs(double userInput);
 
 	};
 
