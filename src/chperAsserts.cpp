@@ -60,12 +60,12 @@ int main(void) {
 
 	chper * chperCmd = new chper(filename, "777");	
 	doExecuteAndAssert(chperCmd, "-rwxrwxrwx");
-	
+
+	chperCmd = new chper(filename, "o-r,o-w,o-x");
+	doExecuteAndAssert(chperCmd, "-rwxrwx---");
+
 	chperCmd = new chper(filename, "755");
 	doExecuteAndAssert(chperCmd, "-rwxr-xr-x");
-
-	chperCmd = new chper(filename, "u-r,u-w,u-x");
-	doExecuteAndAssert(chperCmd, "----r-xr-x");
 
 	return 0;
 }
