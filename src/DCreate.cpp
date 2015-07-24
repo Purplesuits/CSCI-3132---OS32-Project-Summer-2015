@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <stdlib.h>
-#include "command.h"
+#include "Command.h"
 
 using namespace std;
 
