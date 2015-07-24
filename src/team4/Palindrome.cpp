@@ -4,8 +4,6 @@
 
 #include "Palindrome.h"
 #include "UI.h"
-#include <string>
-#include <sstream>
 
 using namespace std;
 using namespace Utilities;
@@ -24,7 +22,7 @@ void Palindrome::palindrome() {
     UI::print("Input a string: ");
     input = UI::readLine();
     if (input == string(input.rbegin(), input.rend())) {
-        UI::println(input+" is a palindrome");
+        UI::println("The string \"" + input + "\" is a palindrome");
     }
-    else UI::println(input+"is not palindrome");
+    else UI::println("The string \"" + input + "\" is not palindrome");
 }

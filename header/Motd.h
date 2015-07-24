@@ -14,11 +14,11 @@ using namespace std;
 
 namespace Utilities {
 
-    class Motd : public Utilities {
+    class Motd : public Utilities{
 
     public:
-        Motd() {};
-        ~Motd() {};
+        Motd();
+        ~Motd(){};
         void execute();
         void generateMOTD();
 

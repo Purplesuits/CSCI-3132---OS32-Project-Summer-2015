@@ -21,7 +21,6 @@
 #include "Utilities.h"
 #include "Converter.h"
 #include "encryption.h"
-#include "calculator.h"
 #include "Palindrome.h"
 #include "Motd.h"
 #include "UI.h"
@@ -31,11 +30,12 @@ using namespace std;
 namespace Utilities {
 
 	Utilities::Utilities() {
-
+		//TODO Add reference to constructor for UI and Kernel for process scheduling and execution.
 
 	}
 
 	Utilities::~Utilities() {
+		// TODO Auto-generated destructor stub
 	}
 
 
@@ -55,28 +55,35 @@ namespace Utilities {
 
 		Utilities* util = NULL;
 
-		UI::println( "\n\n::Utilities Menu::");
-		UI::println("1. Converter Utility");
-		UI::println("2. Encryption Utility");
-		UI::println("3. Message of the day Utility");
-		UI::println("4. Palindrome Utility");
-		UI::println("5. Calculator Utility");
-		UI::println("6. Display system date/time");
-		UI::println("0. Quit");
-		UI::println("\nEnter Utility to run (1-6, 0 to Quit): ");
+		cout << "\n\n::Utilities Menu::" << endl;
+		cout << "1. Converter Utility" << endl;
+		cout << "2. Encryption Utility" << endl;
+		cout << "3. Message of the day Utility" << endl;
+		cout << "4. Palindrome Utility" << endl;
+		cout << "5. Calculator Utility" << endl;
+		cout << "6. Display system date/time" << endl;
+		cout << "0. Quit" << endl;
+		cout << "\nEnter Utility to run (1-6, 0 to Quit): ";
 
-		string userInput = "";
+		cin >> runUtil;
 
-		UI::readLine();
-                userInput =  UI::readLine();
-		if(checkIfInt(userInput, runUtil)){
+		if(!cin){
+			cout << "Error - Please enter a valid menu selection" << endl;
+			runUtil = -1;
+
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+		else{
 
 			switch(runUtil){
 				case CONVERTER_UTILITY:
+
 					util = new Converter();
+
 					break;
 				case ENCRYPTION_UTILITY:
-					util = new Encryption();
+					util = new /*(OS32Memory::getInstance().alloc(sizeof(Encryption)))*/ Encryption();
 					break;
 				case MOTD_UTILITY:
 					util = new Motd();
@@ -85,7 +92,8 @@ namespace Utilities {
 					util = new Palindrome();
 					break;
 				case CALCULATOR_UTILITY:
-					util = new Calculator();
+
+
 					break;
 				case DATE_TIME_UTILITY:
 
@@ -96,18 +104,14 @@ namespace Utilities {
 					cout << "Exiting Utilites!" << endl;
 					break;
 				default:
-					UI::println("Error - Please enter a valid menu selection");
+					cout << "Error - Please enter a valid menu selection" << endl;
 					runUtil = -1;
 					break;
 			}
-			//UI::readLine();
+			UI::readLine();
+			return util;
+		}
 
-		}
-		else{
-			UI::println("Error - Please enter a  valid menu seclection");
-		}
-		
-		return util;
 	}
 
 	/**
@@ -116,29 +120,23 @@ namespace Utilities {
 	 *
 	 */
 	 void Utilities::execute(){
-		 Utilities* util = NULL;
-		 do{
+		 Utilities* util;
+		 do {
 			util = displayMenu();
 			if(util != NULL){
 				util->execute();
-
-				
 			}
 		 } while (util != NULL);
 
- 	}
+		 //This will be replaced with reference to the Kernel and the pointer "util" passed for scheduling and execution
+		 /*if(util != NULL){
+			 util->execute();
+		 }*/
 
 
-	bool Utilities::checkIfInt(string userInput, int &runUtil){
-		try {
-			runUtil = stoi(userInput, nullptr, 10);
-
-			return true;
-		}
-  		catch (const std::invalid_argument& ia) {
-			std::cerr << "Invalid argument: " << ia.what() << '\n';
-			return false;
-		}
+		 //TODO need access to the memory management system in order to pass the pointer to the created utility object
 	}
+
+
 
 } /* namespace Utilities */
