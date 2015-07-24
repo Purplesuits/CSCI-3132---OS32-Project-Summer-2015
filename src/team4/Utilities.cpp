@@ -26,6 +26,7 @@
 #include "Motd.h"
 #include "UI.h"
 #include "Scheduler.h"
+#include "OS32Memory.h"
 
 using namespace std;
 
@@ -74,19 +75,24 @@ namespace Utilities {
 
 			switch(runUtil){
 				case CONVERTER_UTILITY:
-					util = new Converter();
+					//util = new Converter();
+					util = new(OS32Memory::getInstance().alloc(sizeof(Converter))) Converter();	
 					break;
 				case ENCRYPTION_UTILITY:
-					util = new Encryption();
+					//util = new Encryption();
+					util = new(OS32Memory::getInstance().alloc(sizeof(Encryption))) Encryption(); 
 					break;
 				case MOTD_UTILITY:
-					util = new Motd();
+					//util = new Motd();
+					util = new(OS32Memory::getInstance().alloc(sizeof(Motd))) Motd();
 					break;
 				case PALINDROME_UTILITY:
-					util = new Palindrome();
+					//util = new Palindrome();
+					util = new(OS32Memory::getInstance().alloc(sizeof(Palindrome))) Palindrome(); 
 					break;
 				case CALCULATOR_UTILITY:
-					util = new Calculator();
+					//util = new Calculator();
+					util = new(OS32Memory::getInstance().alloc(sizeof(Calculator))) Calculator(); 
 					break;
 				case DATE_TIME_UTILITY:
 
@@ -123,7 +129,8 @@ namespace Utilities {
 			if(util != NULL){
 				Scheduler &scheduler = Scheduler::getInstance();
 				scheduler.runUtility(util);
-				
+			
+				OS32Memory::getInstance().free(util);	
 			}
 		} while (util != NULL);
 
