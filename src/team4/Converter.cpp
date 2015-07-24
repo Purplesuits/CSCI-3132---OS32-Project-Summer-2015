@@ -6,18 +6,19 @@
  */
 
 #include "Converter.h"
+#include "UI.h"
+
+#include <sstream>
 
 using namespace std;
 
 namespace Utilities {
 
 	Converter::Converter() : Utilities(){
-		// TODO Auto-generated constructor stub
 
 	}
 
 	Converter::~Converter() {
-		// TODO Auto-generated destructor stub
 	}
 
 	void Converter::execute(){
@@ -26,77 +27,83 @@ namespace Utilities {
 
 	void Converter::displayMenu(){
 
-		cout << "::Converter Menu::" << endl;
-		cout << "\t1. Convert from Fahrenheit to Celsius" << endl;
-		cout << "\t2. Convert from Celsius to Fahrenheit" << endl;
-		cout << "\t3. Convert from feet to meters" << endl;
-		cout << "\t4. Convert from meters to feet" << endl;
-		cout << "\t5. Convert from lbs to kgs" << endl;
-		cout << "\t6. Convert from kgs to lbs" << endl;
+		UI::println("::Converter Menu::");
+		UI::println("\t1. Convert from Fahrenheit to Celsius");
+		UI::println("\t2. Convert from Celsius to Fahrenheit");
+		UI::println("\t3. Convert from feet to meters");
+		UI::println("\t4. Convert from meters to feet");
+		UI::println("\t5. Convert from lbs to kgs");
+		UI::println("\t6. Convert from kgs to lbs");
 
-		int selection = 0;
+		int selection = -1;
 
-		cout << "Enter Selection: ";
-		cin >> selection;
+		UI::print("Enter Selection: ");
+	
+		//string userInputStr = "";
+		selection = UI::read<int>();
 
-		if(checkUserInput()){
-			cout << "\nEnter Unit: ";
+		if(checkIfNumber()){
+			UI::print("\nEnter Unit: ");
 
 			double userInput = 0.0;
 			double result = 0.0;
-			cin >> userInput;
+			//userInputStr = "";
 
-			if(checkUserInput()){
+			userInput = UI::read<double>();			
+
+			if(checkIfNumber()){
 
 				cout << endl;
 
 				switch(selection){
 				case FtoC:
 					result = (((userInput * 9) / 5) + 32);
-					cout << "F to C: ";
+					UI::print("F to C: ");
 					break;
 				case CtoF:
 					result = (((userInput - 32) * 5) / 9);
-					cout << "C to F: ";
+					UI::print("C to F: ");
 					break;
 				case MetersToFeet:
 					result = userInput * 3.28;
-					cout << "M to Ft: ";
+					UI::print("M to Ft: ");
 					break;
 				case FeetToMeters:
 					result = userInput / 3.28;
-					cout << "Ft to M: " ;
+					UI::print("Ft to M: ");
 					break;
 				case LbsToKgs:
 					result = userInput / 2.2;
-					cout << "Lbs to Kgs: ";
+					UI::print("Lbs to Kgs: ");
 					break;
 				case KgsToLbs:
 					result = userInput * 2.2;
-					cout << "Kgs to Lbs: ";
+					UI::print("Kgs to Lbs: ");
 					break;
 				default:
-					cout << "Error - Please enter a valid conversion selection" << endl;
+					UI::println("Error - Please enter a valid conversion selection");
 					break;
 				}
+					
+				stringstream ss;
+				
+				ss << result;
 
-				cout << result << endl;
+				UI::println(ss.str());
 
 			}
+			else{
+				UI::println("Error - Please enter a valid number");
+				selection = -1;
+			}
+		}
+		else{
+		    UI::println("Error - Please enter a valid conversion selection");
+		    selection = -1;
+
 		}
 
 
-	}
-
-	bool Converter::checkUserInput(){
-		if(!cin){
-			cout << "Error - Please Enter Valid Input!" << endl;
-			cin.clear();
-			cin.ignore(std::numeric_limits<std::streamsize>::max());
-			return false;
-		}
-
-		return true;
 	}
 
 
