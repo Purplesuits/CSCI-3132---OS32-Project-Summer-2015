@@ -1,44 +1,66 @@
-/* Two functions Fread and Fwrite. Current version is only for testing, two functions will be implemented as subclass of Command with valid arguements and outputs in the future.
+/**
+ *  The Fwrite class is a subclass of Command class. It overrides the function "excute" to write 
+ *  some content into a file in OS32 file system. The file can only be written if the read and 
+ *  write permissions of the file are both 1 and the file is already created.
+ *
+ *  Author: Hankun Zhang (B00614362)
  */
 
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "File.h"
+#include "FileSystem.h"
+#include "UI.h"
+
 using namespace std;
 
-class fwrite:Command{
+class Fwrite:Command{
 private:
     string fileName;
-    
-    int fwrite(string name, string content){
+    string content;
+
+
+public:
+    /**
+     *  The constructor sets the file name and the content to be written.
+     */
+    Fwrite(string name, string con){
         fileName = name;
-        fstream file;
-        file.open(fileName, ios_base::out | ios_base::in);  // will not create file
-        
-        //check if the file already exists
-        if (file.is_open())
+        content = con;
+    }
+    
+    /**
+     *  The execute function fiestly check if the file is created. Then, it checkes the file permission. 
+     *  If the read and write permissions are 1, the content is written to the file with a message to UI. 
+     *  If the read and write permissions are not 1, an error message will be printed and function
+     *  returns 0.
+     *
+     *  @return 1 if file is written succesfully, 0 otherwise
+     */
+    int execute(){
+        //check if the file is created
+        if(FileSystem::getInstance().fwrite(fileName) == NULL)
         {
-            cout << "File already exists, append to the end";
-            
-            //add a call function to check the permission, if no rw, return 0
-            file.close();
-            file.open(fileName,fstream::in | fstream::out | fstream::app);  // will not create file
-            file << content<<"\n";
-            file.close();
+            UI::println("Fwrite failed. The file entered is not created.");
+            return 0;
+        }
+        //check the read and write permission
+        else if(FileSystem::getInstance().fwrite(fileName)->getPermissions()[1]==1 && FileSystem::getInstance().fwrite(fileName)->getPermissions()[0]==1)
+        {
+            FileSystem::getInstance().fwrite(fileName)->setContents(content);
+            UI::println("Fwrite complete.");
             return 1;
-            
+
         }
         else
         {
-            cout<<"file not exists, create a new file";
-            file.clear();
-            file.open(fileName, ios_base::out);  // will create a new file
-            file << content<<"\n";
-            file.close();
-            return 1;
+            UI::println("Fwrite failed. No read or write permission.");
+            return 0;
         }
         
-        return 0;
+
+    
     }
-}
+};
 

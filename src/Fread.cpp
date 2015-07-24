@@ -1,36 +1,59 @@
-/* Two functions Fread and Fwrite. Current version is only for testing, two functions will be implemented as subclass of Command with valid arguements and outputs in the future.
+/**
+ *  The Fread class is a subclass of Command class. It overrides the function "excute" 
+ *  to read a file in OS32 file system and display the file to the UI. The file can only
+ *  be read if the read permission of the file is 1 and the file is already created.
+ *
+ *  Author: Hankun Zhang (B00614362)
  */
 
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "File.h"
+#include "FileSystem.h"
+#include "UI.h"
 using namespace std;
 
-class fread:Command{
+class Fread:Command{
 private:
     string line;
     string fileName;
     
 public:
-    int fread(string name){
+    /**
+     *  The constructor sets the file name.
+     */
+    Fread(string name){
         fileName = name;
-        ifstream myfile (fileName);
-        
-        //add a call function to check the permission, if no rw, return 0
-        
-        if (myfile.is_open())
-        {
-            while ( getline (myfile,line) )
-            {
-                cout << line << '\n'; //replace cout with function in UI
-            }
-            myfile.close();
-        }
-        
-        else cout << "Unable to open file";
-        
-        return 0;
     }
     
-}
+    /**
+     *  The execute function fiestly check if the file is created. Then, it checkes the file permission. 
+     *  If the read permission is 1, the file is read and the content of the file is displayed to the UI. 
+     *  If the read permission is not 1, an error message is printed and function returns 0.
+     *
+     *  @return 1 if file is read succesfully, 0 otherwise
+     */
+    int execute(){
+        //check if the file is created
+        if(FileSystem::getInstance().fwrite(fileName) == NULL)
+        {
+            UI::println("Fwrite failed. The file entered is not created.");
+            return 0;
+        }
+        //check the read permission
+        else if(FileSystem::getInstance().fwrite(fileName)->getPermissions()[0]==1)
+        {
+            UI::println(FileSystem::getInstance().fread(fileName)->getContents());
+            UI::println("Fread complete.");
+            return 1;
+        }
+        else
+        {
+            UI::println("Fread failed. No read permission.");
+            return 0;
+        }
+    }
+    
+};
 
