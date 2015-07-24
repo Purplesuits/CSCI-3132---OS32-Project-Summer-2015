@@ -1,3 +1,12 @@
+/*
+ this is the calculator class 
+ 
+ calculator can do basic addtion mutilplcation division and subtraction
+ 
+ */
+
+
+
 #include"calculator.h"
 #include <iostream>
 #include<vector>
@@ -15,7 +24,9 @@ using namespace Utilities;
     cal->execute();
     return 0;
 }*/
-
+/*this is the excute function the only public function
+ outside funtion want to use calculator, just need to called this function
+ */
 void Calculator::execute()
 {
     MyStack<int> stack ;
@@ -87,6 +98,9 @@ bool Calculator::CheckSyntax(char pre[])
     
     
 }
+
+
+/*check the characters of the input string*/
 bool Calculator::checkCharacters(char pre[])
 {
     int i;
@@ -137,6 +151,9 @@ bool Calculator::checkOP(char pre[])
     }
     return 0;
 }
+
+//check the dot of the input string, decimals number such as 3.14 has dot
+//we can allow there many contigous dot in it
 bool Calculator::checkDot(char pre[])
 {
     int i;
@@ -163,7 +180,7 @@ bool Calculator::checkDot(char pre[])
     }
     return 0;
 }
-
+//check the bracket of the function
 bool Calculator::checkBracket(char pre[])
 {
     char b[100];
@@ -206,6 +223,10 @@ bool Calculator::checkBracket(char pre[])
     }
     return 0;
 }
+
+
+
+//check the semicolon
 bool Calculator::checkSeicolon(char pre[])
 {
     int i;
@@ -226,6 +247,10 @@ bool Calculator::checkSeicolon(char pre[])
     return 0;
     
 }
+
+
+
+//this function will add bracket beside the error point
 void Calculator::printError(char array[],int l)
 {
     int i;
@@ -242,6 +267,9 @@ void Calculator::printError(char array[],int l)
     
     
 }
+
+//
+
 void Calculator::printError(char array[])
 {
     printA(array);
@@ -270,12 +298,16 @@ void Calculator::printC(char a)
     cal_printout[(unsigned)strlen(cal_printout)+1]='\0';
 }
 
+
+//check it is operator or not
 bool Calculator::isoperator(char op)
 {
     return ((op=='+')||(op=='-')||(op=='*')||(op=='/'));
 }
 
 
+//set the priotiy for the operator since additoin and multiplication has differetn
+//priotity
 int Calculator::priority(char op)
 {
     
@@ -295,10 +327,10 @@ int Calculator::priority(char op)
     {
         return 2;
     }
-    return 1;
+    return -1;
 }
 
-
+//convert the expression into postexpression
 int Calculator::postfix(char Preex[] ,char Postexp[],int &n)
 {
     memset( &cal_printout, 0, sizeof( char )*200 );
@@ -357,7 +389,7 @@ int Calculator::postfix(char Preex[] ,char Postexp[],int &n)
     }
     return 0;
 }
-
+//read the double
 double Calculator::read_number(char str[],int *i)
 {
     double theNUM=0.0;
@@ -386,7 +418,7 @@ double Calculator::read_number(char str[],int *i)
     
     return theNUM;
 }
-
+//get the value
 double Calculator::postfix_value(char postexp[])
 {
     
