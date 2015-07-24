@@ -25,6 +25,7 @@
 #include "Palindrome.h"
 #include "Motd.h"
 #include "UI.h"
+#include "Scheduler.h"
 
 using namespace std;
 
@@ -116,15 +117,15 @@ namespace Utilities {
 	 *
 	 */
 	 void Utilities::execute(){
-		 Utilities* util = NULL;
-		 do{
+		Utilities* util = NULL;
+		do{
 			util = displayMenu();
 			if(util != NULL){
-				util->execute();
-
+				Scheduler &scheduler = Scheduler::getInstance();
+				scheduler.runUtility(util);
 				
 			}
-		 } while (util != NULL);
+		} while (util != NULL);
 
  	}
 
