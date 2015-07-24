@@ -17,7 +17,7 @@
 
 
 enum{
-	FtoC,
+	FtoC = 1,
 	CtoF,
 	MetersToFeet,
 	FeetToMeters,
@@ -38,7 +38,6 @@ namespace Utilities {
 		private:
 
 			void displayMenu();
-			bool checkUserInput();
 
 	};
 
