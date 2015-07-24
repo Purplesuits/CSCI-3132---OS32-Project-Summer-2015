@@ -65,14 +65,21 @@ namespace Utilities {
 		UI::println("5. Calculator Utility");
 		UI::println("6. Display system date/time");
 		UI::println("0. Quit");
-		UI::println("\nEnter Utility to run (1-6, 0 to Quit): ");
+		UI::print("\nEnter Utility to run (1-6, 0 to Quit): ");
 
 		string userInput = "";
 
-		UI::readLine();
-                userInput =  UI::readLine();
-		if(checkIfInt(userInput, runUtil)){
+		//UI::readLine();
 
+	
+                runUtil =  UI::read<int>();
+
+		
+//		flushInputStream();
+		//cout << '\n';
+		if(checkIfNumber()){
+
+			flushInputStream();
 			switch(runUtil){
 				case CONVERTER_UTILITY:
 					//util = new Converter();
@@ -103,15 +110,19 @@ namespace Utilities {
 					cout << "Exiting Utilites!" << endl;
 					break;
 				default:
-					UI::println("Error - Please enter a valid menu selection");
+					UI::println("Error - Please enter a valid menu selection\n");
 					runUtil = -1;
 					break;
 			}
+
+//			userInput += "\n";
 			//UI::readLine();
+			//flushInputStream();
 
 		}
 		else{
-			UI::println("Error - Please enter a  valid menu seclection");
+			UI::println("Error - Please enter a  valid menu seclection\n");
+			runUtil = -1;
 		}
 		
 		return util;
@@ -125,6 +136,7 @@ namespace Utilities {
 	 void Utilities::execute(){
 		Utilities* util = NULL;
 		do{
+			
 			util = displayMenu();
 			if(util != NULL){
 				Scheduler &scheduler = Scheduler::getInstance();
@@ -133,20 +145,54 @@ namespace Utilities {
 				OS32Memory::getInstance().free(util);	
 			}
 		} while (util != NULL);
+		
+		//flushInputStream();
+		
+		UI::println("\n");
 
  	}
 
+ 	
+ 	bool Utilities::checkIfNumber(){
+		if(!cin){
 
-	bool Utilities::checkIfInt(string userInput, int &runUtil){
+		    flushInputStream();
+		    
+		    return false;
+		}
+		  
+		return true;
+	}
+
+	/*bool Utilities::checkIfInt(string userInput, int &runUtil){
 		try {
 			runUtil = stoi(userInput, nullptr, 10);
 
 			return true;
 		}
   		catch (const std::invalid_argument& ia) {
-			std::cerr << "Invalid argument: " << ia.what() << '\n';
 			return false;
 		}
 	}
+
+
+	bool Utilities::checkIfDouble(string userInputStr, double &userInput){
+		try {
+			userInput = stod(userInputStr, nullptr);
+
+			return true;
+		}
+  		catch (const std::invalid_argument& ia) {
+			return false;
+		}
+	}*/
+
+	void Utilities::flushInputStream(){
+
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');	
+
+	}
+
 
 } /* namespace Utilities */
