@@ -11,6 +11,7 @@ using namespace Utilities;
 /*int main()
 {
     
+    
     Calculator *cal=new Calculator();
     cal->execute();
     return 0;
@@ -21,14 +22,15 @@ void Calculator::execute()
     MyStack<int> stack ;
     stack.init();
     //strcpy(cal_printout,"the answer");
-    char exp[100];
+    char TheExpression[100];
     UI::println( "Enter expression such as the expression (1+2)*(3-4)   :");
     
+    
     string expression=UI::readLine();
-    strcpy(exp,expression.c_str());
+    strcpy(TheExpression,expression.c_str());
     char post[100] ;
     int n =0;
-    if(!postfix(exp,post,n))
+    if(!postfix(TheExpression,post,n))
     {
         char a[]= "answer: ";
         printA(a);
@@ -205,7 +207,9 @@ bool Calculator::checkBracket(char pre[])
         return 1;
     }
     return 0;
+    
 }
+
 bool Calculator::checkSeicolon(char pre[])
 {
     int i;
@@ -257,6 +261,7 @@ void Calculator::printA(char a[])
 
 
 
+
 /*
  
  
@@ -299,10 +304,11 @@ int Calculator::priority(char op)
 }
 
 
-int Calculator::postfix(char pre[] ,char post[],int &n)
+
+int Calculator::postfix(char Preex[] ,char Postexp[],int &n)
 {
     memset( &cal_printout, 0, sizeof( char )*200 );
-    if(CheckSyntax(pre))
+    if(CheckSyntax(Preex))
     {
         char a[]="\n    --- Syntax issuse ---   ";
         printA(a);
@@ -310,49 +316,49 @@ int Calculator::postfix(char pre[] ,char post[],int &n)
     }
     int i=0,j=0;
     n=0;
-    MyStack<char> stack;
+    MyStack<char> mystack;
     
-    stack.init();
+    mystack.init();
     
-    stack.push(';');
+    mystack.push(';');
     
-    while(pre[i]!=';')
+    while(Preex[i]!=';')
     {
-        if((pre[i]>='0' && pre[i] <='9')||pre[i] =='.')
+        if((Preex[i]>='0' && Preex[i] <='9')||Preex[i] =='.')
         {
-            post[j++] = pre[i];
+            Postexp[j++] = Preex[i];
             n++;
         }
-        else if (pre[i]=='(')
-            stack.push(pre[i]);
-        else if(pre[i] ==')')
+        else if (Preex[i]=='(')
+            mystack.push(Preex[i]);
+        else if(Preex[i] ==')')
         {
-            while(stack.gettop()!='(')
+            while(mystack.gettop()!='(')
             {
-                post[j++] = stack.pop();
+                Postexp[j++] = mystack.pop();
                 n++;
             }
-            stack.pop();
+            mystack.pop();
         }
-        else if (isoperator(pre[i]))
+        else if (isoperator(Preex[i]))
         {
-            post[j++] = ' ';
+            Postexp[j++] = ' ';
             n++;
-            while(priority(pre[i]) <= priority(stack.gettop()))
+            while(priority(Preex[i]) <= priority(mystack.gettop()))
             {
                 
-                post[j++] = stack.pop();
+                Postexp[j++] = mystack.pop();
                 n++;
             }
             
-            stack.push(pre[i]);
+            mystack.push(Preex[i]);
         }
         
         i++;
     }
-    while(stack.top)
+    while(mystack.top)
     {
-        post[j++] = stack.pop();
+        Postexp[j++] = mystack.pop();
         n++;
     }
     return 0;
@@ -360,11 +366,11 @@ int Calculator::postfix(char pre[] ,char post[],int &n)
 
 double Calculator::read_number(char str[],int *i)
 {
-    double x=0.0;
+    double theNUM=0.0;
     int k = 0;
     while(str[*i] >='0' && str[*i]<='9')
     {
-        x = x*10+(str[*i]-'0');
+        theNUM = theNUM*10+(str[*i]-'0');
         (*i)++;
     }
     
@@ -373,64 +379,69 @@ double Calculator::read_number(char str[],int *i)
         (*i)++;
         while(str[*i] >= '0'&&str[*i] <='9')
         {
-            x = x * 10 + (str[*i]-'0');
+            theNUM = theNUM * 10 + (str[*i]-'0');
             (*i)++;
             k++;
         }
     }
     while(k!=0)
     {
-        x /= 10.0;
+        theNUM /= 10.0;
         k--;
     }
     
-    return x;
+    return theNUM;
 }
 
-double Calculator::postfix_value(char post[])
+double Calculator::postfix_value(char postexp[])
 {
-    MyStack<double> stack;
-    stack.init();
     
     int i=0;
-    double x1,x2;
+    double num1,num2;
     
-    while(post[i] !=';')
+    MyStack<double> cal_stack;
+    cal_stack.init();
+    
+    
+    
+    while(postexp[i] !=';')
     {
-        if(post[i] >='0' && post[i] <='9')
-            stack.push(read_number(post,&i));
-        else if(post[i] == ' ')
+        if(postexp[i] >='0' && postexp[i] <='9')
+            cal_stack.push(read_number(postexp,&i));
+        else if(postexp[i] == ' ')
             i++;
-        else if (post[i] =='+')
+        else if (postexp[i] =='-')
         {
-            x2 = stack.pop();
-            x1 = stack.pop();
-            stack.push(x1+x2);
+            num2 = cal_stack.pop();
+            num1 = cal_stack.pop();
+            cal_stack.push(num1-num2);
             i++;
         }
-        else if (post[i] =='-')
+        else if (postexp[i] =='+')
         {
-            x2 = stack.pop();
-            x1 = stack.pop();
-            stack.push(x1-x2);
+            num2 = cal_stack.pop();
+            num1 = cal_stack.pop();
+            cal_stack.push(num1+num2);
             i++;
         }
-        else if (post[i] =='*')
+        
+        else if (postexp[i] =='/')
         {
-            x2 = stack.pop();
-            x1 = stack.pop();
-            stack.push(x1*x2);
+            num2 = cal_stack.pop();
+            num1 = cal_stack.pop();
+            cal_stack.push(num1/num2);
             i++;
         }
-        else if (post[i] =='/')
+        else if (postexp[i] =='*')
         {
-            x2 = stack.pop();
-            x1 = stack.pop();
-            stack.push(x1/x2);
+            num2 = cal_stack.pop();
+            num1 = cal_stack.pop();
+            cal_stack.push(num1*num2);
             i++;
         }
+        
     }
-    return stack.gettop();  
+    return cal_stack.gettop();
 }  
 
 
