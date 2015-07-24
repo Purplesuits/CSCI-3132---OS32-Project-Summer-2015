@@ -1,6 +1,12 @@
 /*
  this is the calculator class 
  
+ * Calculator.cpp
+ *
+ *  Created on: 0 Jul 2015
+ *      Author: xiang ling
+ * 
+ * 	
  calculator can do basic addtion mutilplcation division and subtraction
  
  */
