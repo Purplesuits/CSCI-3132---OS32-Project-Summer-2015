@@ -2,7 +2,7 @@
  * Utilities.cpp
  *
  *  Created on: 7 Jul 2015
- *      Author: jturner
+ *      Author: Jason Turner
  *
  *
  *  The Utilities class design has changed from what was initially discussed after review of the project specifications
@@ -10,12 +10,9 @@
  *	The Utilities class should be instantiated first with a reference to the UI and Process management and execute() run
  *	to display the menu.
  *
- *	Note: No memory needs to be used with the base Utility execute() task as it will be using the referenced
- *	UI to display a menu and take user input for selection and no process is scheduled.
- *
  *	The user may then select which Utility to run, which will be then be returned as a Utilities* of selected Utility type. (eg converter, calculator etc..)
  *
- *	This Utilities* will then be passed to the kernel for scheduling and execution, then returning to the UI.
+ *	This Utilities* will then be passed to the kernel for scheduling and execution, then returning to the Utilites menu once utility as run.
  */
 
 #include "Utilities.h"
@@ -68,43 +65,37 @@ namespace Utilities {
 		UI::print("\nEnter Utility to run (1-6, 0 to Quit): ");
 
 		string userInput = "";
-
-		//UI::readLine();
-
 	
                 runUtil =  UI::read<int>();
 
-		
-//		flushInputStream();
-		//cout << '\n';
 		if(checkIfNumber()){
 
 			flushInputStream();
 			switch(runUtil){
 				case CONVERTER_UTILITY:
-					//util = new Converter();
+				  
 					util = new(OS32Memory::getInstance().alloc(sizeof(Converter))) Converter();	
 					break;
 				case ENCRYPTION_UTILITY:
-					//util = new Encryption();
+				  
 					util = new(OS32Memory::getInstance().alloc(sizeof(Encryption))) Encryption(); 
 					break;
 				case MOTD_UTILITY:
-					//util = new Motd();
+				  
 					util = new(OS32Memory::getInstance().alloc(sizeof(Motd))) Motd();
 					break;
 				case PALINDROME_UTILITY:
-					//util = new Palindrome();
+				  
 					util = new(OS32Memory::getInstance().alloc(sizeof(Palindrome))) Palindrome(); 
 					break;
 				case CALCULATOR_UTILITY:
-					//util = new Calculator();
+				  
 					util = new(OS32Memory::getInstance().alloc(sizeof(Calculator))) Calculator(); 
 					break;
 				case DATE_TIME_UTILITY:
-
+				  
+					UI::println("I'm the date and time!");
 					break;
-
 				case EXIT:
 					util = NULL;
 					cout << "Exiting Utilites!" << endl;
@@ -114,10 +105,6 @@ namespace Utilities {
 					runUtil = -1;
 					break;
 			}
-
-//			userInput += "\n";
-			//UI::readLine();
-			//flushInputStream();
 
 		}
 		else{
@@ -148,9 +135,7 @@ namespace Utilities {
 			}
 		} while (util != NULL);
 		
-		//flushInputStream();
-		
-		UI::println("\n");
+		UI::println("");
 
  	}
 

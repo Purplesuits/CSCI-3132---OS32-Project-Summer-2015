@@ -2,7 +2,9 @@
  * Converter.cpp
  *
  *  Created on: 8 Jul 2015
- *      Author: jturner
+ *      Author: Jason Turner
+ * 
+ * 	The converter utility allows the user to convert between 
  */
 
 #include "Converter.h"
@@ -14,6 +16,9 @@ using namespace std;
 
 namespace Utilities {
 
+	/**
+	 * 	Class extends Utilities
+	 * */
 	Converter::Converter() : Utilities(){
 
 	}
@@ -25,6 +30,15 @@ namespace Utilities {
 		displayMenu();
 	}
 
+	/**
+	 *  Function displays all the conversion operations to the user.
+	 *
+	 *   The user can then select which conversion to perform and enter the number of units they wish to convert.
+	 *
+	 *   Once the conversion has taken place the result will be displayed on the screen. 
+	 * 
+	 * 
+	 */
 	void Converter::displayMenu(){
 
 		UI::println("::Converter Menu::");
@@ -57,27 +71,27 @@ namespace Utilities {
 
 				switch(selection){
 				case FtoC:
-					result = (((userInput * 9) / 5) + 32);
+					result = getFtoC(userInput);
 					UI::print("F to C: ");
 					break;
 				case CtoF:
-					result = (((userInput - 32) * 5) / 9);
+					result = getCtoF(userInput);
 					UI::print("C to F: ");
 					break;
 				case MetersToFeet:
-					result = userInput * 3.28;
+					result = getMetersToFeet(userInput);
 					UI::print("M to Ft: ");
 					break;
 				case FeetToMeters:
-					result = userInput / 3.28;
+					result = getFeetToMeters(userInput);
 					UI::print("Ft to M: ");
 					break;
 				case LbsToKgs:
-					result = userInput / 2.2;
+					result = getLbsToKgs(userInput);
 					UI::print("Lbs to Kgs: ");
 					break;
 				case KgsToLbs:
-					result = userInput * 2.2;
+					result = getKgsToLbs(userInput);
 					UI::print("Kgs to Lbs: ");
 					break;
 				default:
@@ -102,9 +116,88 @@ namespace Utilities {
 		    selection = -1;
 
 		}
-
-
+	
 	}
+	
+	/**
+	 * Function converts the user input from F to C
+	 * 
+	 *@param userInput double,   the user input to be converted
+	 * 
+	 *@return the converted user input
+	 * 
+	 */
+	double Converter::getFtoC(double userInput){
+	    return (((userInput - 32) * 5) / 9);
+	}
+	
+	
+	/*
+	 * Function converts the user input from C to F
+	 * 
+	 * @param userInput double,   the user input to be converted
+	 * 
+	 * @return the converted user input
+	 * 
+	 */
+	double Converter::getCtoF(double userInput){
+	    return (((userInput * 9) / 5) + 32);
+	}
+	
+	
+	
+	/*
+	 * Function converts the user input from Meters to Feet
+	 * 
+	 * @param userInput double,   the user input to be converted
+	 * 
+	 * @return the converted user input
+	 * 
+	 */
+	double Converter::getMetersToFeet(double userInput){
+	    return userInput * 3.28;
+	}
+	
+	
+	/*
+	 * Function converts the user input from Feet to Meters
+	 * 
+	 * @param userInput double,   the user input to be converted
+	 * 
+	 * @return the converted user input
+	 * 
+	 */
+	double Converter::getFeetToMeters(double userInput){
+	    return userInput / 3.28;
+	}
+	
+	
+	
+	/*
+	 * Function converts the user input from Lbs to Kgs
+	 * 
+	 * @param userInput double,   the user input to be converted
+	 * 
+	 * @return the converted user input
+	 * 
+	 */
+	double Converter::getLbsToKgs(double userInput){
+	    return userInput / 2.2;
+	}
+	
+	
+	
+	/*
+	 * Function converts the user input from Kgs to Lbs
+	 * 
+	 * @param userInput double,   the user input to be converted
+	 * 
+	 * @return the converted user input
+	 * 
+	 */
+	double Converter::getKgsToLbs(double userInput){
+	    return userInput * 2.2;
+	}	
 
 
 
