@@ -44,11 +44,11 @@ namespace Utilities {
 	/**
 	 * Menu for utilities to be run as specified in the project documentation.
 	 *
-	 * Function will eventually instantiate Utility objects of different types and return them to what needs it.
+	 * Function instantiates the other Utilities using the OS32Memory component and returns the new object for the scheduler
 	 *
 	 * eg:
 	 *
-	 * 		Utility* util = new Converter();
+	 * 		Utility* util = new(OS32Memory::getInstance().alloc(sizeof(Converter))) Converter();
 	 *
 	 */
 	Utilities* Utilities::displayMenu(){
@@ -130,7 +130,9 @@ namespace Utilities {
 
 	/**
 	 *
-	 * Virtual function execute that will be overridden by other objects and will return which ever instantiated object to UI or Kernel (which ever needs it)
+	 * Virtual function execute() that will be overridden by other objects and will return which ever instantiated object to UI or Kernel (which ever needs it)
+	 * 
+	 * When run from the base class operates as the main menu so other utilities can then be instantiated and passed along to the scheduler for execution.
 	 *
 	 */
 	 void Utilities::execute(){
@@ -153,6 +155,14 @@ namespace Utilities {
  	}
 
  	
+ 	/**
+	 * Function checks if the input entered is a number of not.  
+	 * 
+	 * If not flush the input stream and return false;
+	 * 
+	 * Else return true, its a number.
+	 * 
+	 */
  	bool Utilities::checkIfNumber(){
 		if(!cin){
 
@@ -164,29 +174,16 @@ namespace Utilities {
 		return true;
 	}
 
-	/*bool Utilities::checkIfInt(string userInput, int &runUtil){
-		try {
-			runUtil = stoi(userInput, nullptr, 10);
 
-			return true;
-		}
-  		catch (const std::invalid_argument& ia) {
-			return false;
-		}
-	}
-
-
-	bool Utilities::checkIfDouble(string userInputStr, double &userInput){
-		try {
-			userInput = stod(userInputStr, nullptr);
-
-			return true;
-		}
-  		catch (const std::invalid_argument& ia) {
-			return false;
-		}
-	}*/
-
+	/**
+	 * A simple bug fix for the input stream when using the UI as well as clearing cin when
+	 * invalid input is entered.
+	 * 
+	 * The bug occurs when the UI::readLine is called after a UI::read<> as the input will hang.
+	 * 
+	 * This clears the input of any existing characters and allows for the input to act normally
+	 * 
+	 */
 	void Utilities::flushInputStream(){
 
 		cin.clear();
