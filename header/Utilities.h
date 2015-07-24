@@ -32,11 +32,13 @@ namespace Utilities {
 			virtual ~Utilities();
 
 			virtual void execute();
+			
+			bool checkIfNumber();
 
-			bool checkIfInt(std::string userInput, int &runUtil);
 
 		private:
 			Utilities* displayMenu();
+			void flushInputStream();
 	};
 
 } /* namespace Utilities */
