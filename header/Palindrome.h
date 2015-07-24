@@ -2,22 +2,22 @@
 // Created by Aymen Ben Rkhis on 7/17/15.
 //
 
-#ifndef PALINDROME_H_
-#define PALINDROME_H_
+#ifndef PALINDROME_H
+#define PALINDROME_H
 
 #include "Utilities.h"
 #include "string"
 
-using namespace std;
 
 namespace Utilities{
 
-    class Palindrome : public Utilities {
+    class Palindrome : public Utilities{
 
     public:
-        Palindrome() {};
-        ~Palindrome() {};
+        Palindrome(){};
+        ~Palindrome(){};
         void execute();
+    private:
         void palindrome();
     };
 
