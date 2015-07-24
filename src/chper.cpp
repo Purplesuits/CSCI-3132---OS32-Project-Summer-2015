@@ -17,6 +17,7 @@ class chper : public Command {
 private:
 	char *filename;
 	char *permission;
+	char permissionString[255];
 public:
 	/**
 	 * @param filename - name of file to change permissions
@@ -29,6 +30,11 @@ public:
 
 	 	this->permission = new char[permission.length() + 1];
 	 	strcpy(this->permission, permission.c_str());
+	 }
+	 ~chper() {
+	 	this->filename = NULL;
+	 	this->permission = NULL;
+	 	memset(this->permissionString, 0, 255);
 	 }
 	/**
 	 * @returns int - 0 if success, 1 if error
@@ -53,13 +59,15 @@ public:
 		{
 			cout << "Executing chper with filename: " << this->filename << " and permission: " << this->permission << "..." << endl;
 
-			char permissionString[255];
-			strcat(permissionString, "chmod ");
-			strcat(permissionString, this->permission);
-			strcat(permissionString, " ");
-			strcat(permissionString, this->filename);
+			strcat(this->permissionString, "chmod ");
+			strcat(this->permissionString, this->permission);
+			strcat(this->permissionString, " ");
+			strcat(this->permissionString, this->filename);
+			system(this->permissionString);
 
-			system(permissionString);
+			// Reset this object so it can be used multiple times in a row
+			// without issues.
+			this->~chper();
 		}
 
 		return 0;
