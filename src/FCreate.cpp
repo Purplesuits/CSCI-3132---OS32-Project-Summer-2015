@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <stdlib.h>
-#include "command.h"
+#include "Command.h"
 //#include "OS32Memory.h"
 
 using namespace std;
